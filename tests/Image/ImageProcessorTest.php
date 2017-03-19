@@ -255,4 +255,35 @@ class ImageProcessorTest extends \PHPUnit_Framework_TestCase
 
         unlink($outPath);
     }
+
+    public function testNonDestructiveSave()
+    {
+        $outPath = __DIR__ . "/../data/test_scale_0_5.png";
+        $expPath = __DIR__ . "/../data/test_scale_0_5_expected.png";
+
+        $processor = $this->getProcessorPng();
+
+        $processor->scaleImage(0.5);
+        $processor->savePngImageToFile($outPath, 6, false);
+
+        $this->assertEquals(
+            $this->getFileMD5($expPath),
+            $this->getFileMD5($outPath)
+        );
+
+        unlink($outPath);
+
+        $outPath = __DIR__ . "/../data/test_scale_0_25.png";
+        $expPath = __DIR__ . "/../data/test_scale_0_25_expected.png";
+
+        $processor->scaleImage(0.5);
+        $processor->savePngImageToFile($outPath, 6, true);
+
+        $this->assertEquals(
+            $this->getFileMD5($expPath),
+            $this->getFileMD5($outPath)
+        );
+
+        unlink($outPath);
+    }
 }

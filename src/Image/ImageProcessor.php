@@ -174,10 +174,13 @@ class ImageProcessor
      *
      * @return void
      */
-    public function savePngImageToFile($path, $compression = 5)
+    public function savePngImageToFile($path, $compression = 5, $destroy = true)
     {
         imagepng($this->image, $path, $compression);
-        imagedestroy($this->image);
+
+        if ($destroy === true) {
+            imagedestroy($this->image);
+        }
     }
 
     /**
@@ -188,10 +191,13 @@ class ImageProcessor
      *
      * @return void
      */
-    public function saveJpgImageToFile($path, $quality = 75)
+    public function saveJpgImageToFile($path, $quality = 75, $destroy = true)
     {
         imagejpeg($this->image, $path, $quality);
-        imagedestroy($this->image);
+
+        if ($destroy === true) {
+            imagedestroy($this->image);
+        }
     }
 
     /**
