@@ -1,7 +1,13 @@
 <?php
-
 namespace Utils\Image;
 
+/**
+ * ImageProcessor class
+ *
+ * @author   Robert Curran <robert.d.curran@googlemail.com>
+ * @license  MIT
+ * @license  http://www.opensource.org/licenses/mit-license.php
+ */
 class ImageProcessor
 {
     /**
@@ -22,12 +28,16 @@ class ImageProcessor
     /**
      * Class constructor loads source image in to memory and gets its size
      *
+     * @param string $imagePath File path to the image to process
+     *
      * @throws Exception if provided path does not exist of is a type other than png or jpg/jpeg
      */
     public function __construct($imagePath)
     {
         if (!file_exists($imagePath)) {
-            throw new \Exception("Unable in instantiate ImageProcessor {$imagePath} does not exist.");
+            throw new \Exception(
+                "Unable in instantiate ImageProcessor {$imagePath} does not exist."
+            );
         }
 
         $imageInfo = pathinfo($imagePath);
@@ -50,6 +60,9 @@ class ImageProcessor
         list($this->width, $this->height) = getimagesize($imagePath);
     }
 
+    /**
+     * Class destructor clears image from memory
+     */
     public function __destruct()
     {
         imagedestroy($this->image);
@@ -102,9 +115,6 @@ class ImageProcessor
     public function cropImage($targetWidth, $targetHeight)
     {
         $croppedSize = $this->getCroppedIamgeSize($targetWidth, $targetHeight);
-
-        // error_log($croppedSize->width);
-        // exit;
 
         // Do nothing if the target size is >= the original size
         if ($croppedSize->width >= $this->width && $croppedSize->height >= $this->height) {
@@ -175,7 +185,7 @@ class ImageProcessor
      * Saves the current image to a given path as a png
      *
      * @param string $path        The path on the file system to save the image
-     * @param int    $compression The compression level to use when saving the png from 0-9
+     * @param int    $compression The compression level to use from 0-9
      *
      * @return void
      */
@@ -259,8 +269,8 @@ class ImageProcessor
     }
 
     /**
-     * Calulates the x and y coordinates at which to place $this->image so that it is centered on a canvas of given
-     * width and heght
+     * Calulates the x and y coordinates at which to place $this->image so that it is centered on a
+     * canvas of given width and heght
      *
      * @param int $targetWidth  The width of the canvas to pixels
      * @param int $targetHeight The height of the canvas pixels
