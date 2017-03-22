@@ -50,6 +50,11 @@ class ImageProcessor
         list($this->width, $this->height) = getimagesize($imagePath);
     }
 
+    public function __destruct()
+    {
+        imagedestroy($this->image);
+    }
+
     /**
      * Scales the image by a given scale factor
      *
@@ -174,13 +179,9 @@ class ImageProcessor
      *
      * @return void
      */
-    public function savePngImageToFile($path, $compression = 5, $destroy = true)
+    public function savePngImageToFile($path, $compression = 5)
     {
         imagepng($this->image, $path, $compression);
-
-        if ($destroy === true) {
-            imagedestroy($this->image);
-        }
     }
 
     /**
@@ -191,13 +192,9 @@ class ImageProcessor
      *
      * @return void
      */
-    public function saveJpgImageToFile($path, $quality = 75, $destroy = true)
+    public function saveJpgImageToFile($path, $quality = 75)
     {
         imagejpeg($this->image, $path, $quality);
-
-        if ($destroy === true) {
-            imagedestroy($this->image);
-        }
     }
 
     /**
