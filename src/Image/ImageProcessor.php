@@ -46,10 +46,16 @@ class ImageProcessor
         switch (strtolower($imageType)) {
             case "jpeg":
             case "jpg":
-                $this->image = imagecreatefromjpeg($imagePath);
+                $this->image = @imagecreatefromjpeg($imagePath);
+                if ($this->image === false) {
+                    throw new \Exception("{$imagePath} is not a valid jpeg file");
+                }
                 break;
             case "png":
-                $this->image = imagecreatefrompng($imagePath);
+                $this->image = @imagecreatefrompng($imagePath);
+                if ($this->image === false) {
+                    throw new \Exception("{$imagePath} is not a valid png file");
+                }
                 imagealphablending($this->image, true);
                 imagesavealpha($this->image, true);
                 break;

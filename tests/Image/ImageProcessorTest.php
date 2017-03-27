@@ -40,6 +40,22 @@ class ImageProcessorTest extends \PHPUnit_Framework_TestCase
         $processor = new ImageProcessor(__DIR__ . "/../data/test.txt");
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testInvalidJpegFile()
+    {
+        $processor = new ImageProcessor(__DIR__ . "/../data/invalid.jpg");
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testInvalidPngFile()
+    {
+        $processor = new ImageProcessor(__DIR__ . "/../data/invalid.png");
+    }
+
     public function testScaleImage_scale1()
     {
         $outPath = __DIR__ . "/../data/test_scale_1.png";
